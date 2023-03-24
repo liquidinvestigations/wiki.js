@@ -40,7 +40,7 @@ module.exports = {
               await user.$relatedQuery('groups').relate(groupId)
             }
             for (const groupId of _.difference(currentGroups, expectedGroups)) {
-              // LIQUID: FIX GROUPS don't remove users from groups that are not in the oauth2 groups unless it's administrators or Guests
+              // LIQUID: FIX GROUPS don't remove users from groups that are not in the oauth2 groups unless it's Administrators (1) or Guests (2)
               if (groupId === 1 || groupId === 2) {
                 await user.$relatedQuery('groups').unrelate().where('groupId', groupId)
               }
