@@ -24,7 +24,12 @@ module.exports = {
       process.exit(1)
     }
 
-    this.bootMaster()
+    console.log(process.env.USER_SCRIPT)
+    if (!process.env.USER_SCRIPT) {
+      this.bootMaster()
+    } else {
+      return
+    }
   },
   /**
    * Pre-Master Boot Sequence
