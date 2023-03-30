@@ -199,7 +199,6 @@ module.exports = async () => {
   // Start HTTP Server(s)
   // ----------------------------------------
 
-  console.log('in master.js')
   if (!process.env.USER_SCRIPT) {
     await WIKI.servers.startHTTP()
 

@@ -24,7 +24,6 @@ module.exports = {
       process.exit(1)
     }
 
-    console.log(process.env.USER_SCRIPT)
     if (!process.env.USER_SCRIPT) {
       this.bootMaster()
     } else {
