@@ -199,10 +199,12 @@ module.exports = async () => {
   // Start HTTP Server(s)
   // ----------------------------------------
 
-  await WIKI.servers.startHTTP()
+  if (!process.env.USER_SCRIPT) {
+    await WIKI.servers.startHTTP()
 
-  if (WIKI.config.ssl.enabled === true || WIKI.config.ssl.enabled === 'true' || WIKI.config.ssl.enabled === 1 || WIKI.config.ssl.enabled === '1') {
-    await WIKI.servers.startHTTPS()
+    if (WIKI.config.ssl.enabled === true || WIKI.config.ssl.enabled === 'true' || WIKI.config.ssl.enabled === 1 || WIKI.config.ssl.enabled === '1') {
+      await WIKI.servers.startHTTPS()
+    }
   }
 
   return true
