@@ -48,7 +48,6 @@ module.exports = {
 
     this.reloadGroups()
     this.reloadApiKeys()
-
     return this
   },
 
