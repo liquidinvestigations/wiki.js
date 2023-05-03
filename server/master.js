@@ -18,6 +18,9 @@ module.exports = async () => {
   // ----------------------------------------
 
   WIKI.auth = require('./core/auth').init()
+  if (process.env.GROUP_SCRIPT) {
+    return
+  }
   WIKI.lang = require('./core/localization').init()
   WIKI.mail = require('./core/mail').init()
   WIKI.system = require('./core/system').init()
@@ -199,7 +202,7 @@ module.exports = async () => {
   // Start HTTP Server(s)
   // ----------------------------------------
 
-  if (!process.env.USER_SCRIPT) {
+  if (!process.env.USER_SCRIPT || !process.env.CERTS_SCRIPT) {
     await WIKI.servers.startHTTP()
 
     if (WIKI.config.ssl.enabled === true || WIKI.config.ssl.enabled === 'true' || WIKI.config.ssl.enabled === 1 || WIKI.config.ssl.enabled === '1') {
