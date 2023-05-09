@@ -62,9 +62,6 @@ module.exports = {
       } else {
         await this.preBootMaster()
         await require('../master')()
-        if (process.env.GROUP_SCRIPT) {
-          return
-        }
         this.postBootMaster()
       }
     } catch (err) {

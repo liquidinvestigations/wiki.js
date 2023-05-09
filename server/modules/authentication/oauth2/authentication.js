@@ -36,25 +36,14 @@ module.exports = {
           if (groups && _.isArray(groups)) {
             const currentGroups = (await user.$relatedQuery('groups').select('groups.id')).map(g => g.id)
             const expectedGroups = Object.values(WIKI.auth.groups).filter(g => groups.includes(g.name)).map(g => g.id)
-            // Create and sync groups for each group name in `groups`
-            for (const groupName of groups) {
-              const group = await WIKI.models.groups.query().findOne({ name: groupName })
-              if (!group) {
-                // Create the group if it doesn't exist
-                const newGroup = await WIKI.models.groups.query().insertAndFetch({
-                  name: groupName,
-                  permissions: JSON.stringify(WIKI.data.groups.defaultPermissions),
-                  pageRules: JSON.stringify(WIKI.data.groups.defaultPageRules),
-                  isSystem: false
-                })
-                expectedGroups.push(newGroup.id)
-              }
-            }
             for (const groupId of _.difference(expectedGroups, currentGroups)) {
               await user.$relatedQuery('groups').relate(groupId)
             }
             for (const groupId of _.difference(currentGroups, expectedGroups)) {
-              await user.$relatedQuery('groups').unrelate().where('groupId', groupId)
+              // LIQUID: FIX GROUPS don't remove users from groups that are not in the oauth2 groups unless it's Administrators (1) or Guests (2)
+              if (groupId === 1 || groupId === 2) {
+                await user.$relatedQuery('groups').unrelate().where('groupId', groupId)
+              }
             }
           }
         }
